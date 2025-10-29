@@ -10,12 +10,8 @@ param(
 $TaskName = "RlogUploaderAutoStart"
 $Description = "Automatically monitors Comma 3X and uploads rlogs to FileBrowser server"
 
-# Get the current script directory
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
-
-# Path to Python executable and script
-$PythonExe = (Get-Command python).Source
-$ScriptPath = Join-Path $ScriptDir "extract_web_server_rlogs.py"
+$BatchFile = Join-Path $ScriptDir "start_rlog_uploader.bat"
 
 Write-Host "================================================" -ForegroundColor Green
 Write-Host "Rlog Uploader - Task Scheduler Installer" -ForegroundColor Green
@@ -35,8 +31,7 @@ Write-Host ""
 Write-Host "Configuration:" -ForegroundColor Cyan
 Write-Host "  Task Name: $TaskName" -ForegroundColor White
 Write-Host "  Port: $Port" -ForegroundColor White
-Write-Host "  Python: $PythonExe" -ForegroundColor White
-Write-Host "  Script: $ScriptPath" -ForegroundColor White
+Write-Host "  Batch File: $BatchFile" -ForegroundColor White
 
 # Remove existing task if it exists
 $existingTask = Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue
@@ -52,12 +47,9 @@ if ($existingTask) {
 Write-Host ""
 Write-Host "Creating scheduled task..." -ForegroundColor Cyan
 
-$Action = New-ScheduledTaskAction -Execute $PythonExe `
-    -Argument "`"$ScriptPath`"" `
+$Action = New-ScheduledTaskAction -Execute "cmd.exe" `
+    -Argument "/c `"$BatchFile`"" `
     -WorkingDirectory $ScriptDir
-
-# Set environment variable for port
-$env:PORT = $Port
 
 # Create the trigger (at startup)
 $Trigger = New-ScheduledTaskTrigger -AtStartup
