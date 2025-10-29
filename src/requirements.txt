@@ -1,0 +1,5 @@
+Flask==3.0.0
+paramiko==3.4.0
+requests==2.31.0
+urllib3==2.1.0
+Werkzeug==3.0.1

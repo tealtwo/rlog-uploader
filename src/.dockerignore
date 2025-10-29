@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+service.log
+rlog_monitor.log
+
+# Data files
+uploaded_logs.json
+config.json
+*.zip
+
+# Temp
+comma_rlogs_temp/
+downloads/
+
+# Docker
+Dockerfile
+docker-compose.yml
+.dockerignore
+
+# Documentation
+*.md
+DEPLOYMENT.md
+README.md
+
+# Windows scripts
+*.ps1

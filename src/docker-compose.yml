@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  rlog-uploader:
+    build: .
+    container_name: rlog-uploader
+    restart: unless-stopped
+    ports:
+      - "3445:3445"
+    environment:
+      - PORT=3445
+    volumes:
+      - ./data:/app/data
+      - ~/.ssh:/root/.ssh:ro
+    networks:
+      - rlog-net
+    healthcheck:
+      test: ["CMD", "python", "-c", "import requests; requests.get('http://localhost:3445/', timeout=5)"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  rlog-net:
+    driver: bridge
